@@ -1,10 +1,25 @@
 #include<iostream>
 using namespace std;
 
-int **a;
-void fun(int , int = 1);
-void show(int n);
-int work();
+double m[] = {0.1,0.2,0.5,1.0};
+int dp[100];
+int read(int &a, int &b);
+int work() {
+    int a,b;
+    int flag = read(a,b);
+    if(flag) {
+        return -1;
+    }
+    double x = a + b*0.1;
+    //完全背包
+    for(int i = 0; i < 4; i++) {
+        for(double j = 0; j <= x; j += 0.1) {
+            dp[(int)(j*10)] = min(dp[(int)(j*10)], dp[(int)((j-m[i])*10)] + 1);
+        }
+    }
+    cout << dp[(int)(x*10)] << endl;
+    return 0;
+}
 
 int main() {
     while(1) {
@@ -13,48 +28,26 @@ int main() {
     return 0;
 }
 
-int work() {
-    int size;
-    cout << "Input size: ";
-    cin >> size;
-    int &n = size;
-    a = new int*[n+1];
-    for(int i = 0; i <= n; i++) {
-        a[i] = new int[n+1];
-        a[0][i] = a[i][0] = 0;
+int read(int &a, int &b) {
+    cout << "Input: ";
+    char str[100];
+    gets(str);
+    a = b = 0;
+    char ch;
+    int i = 0;
+    while(1){
+        ch = str[i];
+        if(ch == '.' || ch == '\0')   break;
+        a = a * 10 + ch - '0';
+        i++;
     }
-    fun(n);
-    show(n);
-    for(int i = 0; i <= n; i++) {
-        delete[]a[i];
+    if(ch == '\0') {
+        return 0;
     }
-    delete[]a;
+    if(str[i+2] != '\0') {
+        cout << "Invalid input: " << endl;
+        return -1;
+    }
+    b = str[i+1];
     return 0;
-}
-
-void fun(int size, int x) {
-    if(size <= 0)   return;
-    int t = x+size-1;
-    for(int i = x; i <= t; i++) {
-        a[i][x] = a[i-1][x] + 1;
-    }
-    for(int i = x; i <= t; i++) {
-        a[t][i] = a[t][x] + i-x;
-    }
-    for(int i = t; i >= x; i--) {
-        a[i][t] = a[t][t] + t-i;
-    }
-    for(int i = t; i > x; i--) {
-        a[x][i] = a[x][t] + t-i;
-    }
-    fun(size-2,x+1);
-}
-
-void show(int n) {
-    for(int i = 1; i <= n; i++) {
-        for(int j = 1; j <= n; j++) {
-            printf("%4d", a[i][j]);
-        }
-        putchar('\n');
-    }
 }
