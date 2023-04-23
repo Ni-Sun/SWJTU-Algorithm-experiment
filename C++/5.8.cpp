@@ -50,8 +50,8 @@ void Time::Set_time(int h, int m, int s) {
 
 class Train_trip {
 	public:
-        Train_trip(char s1[], char s2[], char s3[], int , int sh, int sm, int ss, int eh, int em, int es);
-		Train_trip(char s1[], char s2[], char s3[], int , Time t1, Time t2);
+        Train_trip(const char *, const char *, const char *, int , int sh, int sm, int ss, int eh, int em, int es);
+		Train_trip(const char *s1, const char *s2, const char *s3, int , Time t1, Time t2);
 		void Calculate_time();	//计算耗费的时间
 		void show();
 
@@ -66,7 +66,7 @@ class Train_trip {
 };
 
 //构造函数
-Train_trip::Train_trip(char Train_number[], char start_p[], char end_p[], int price, Time start_t, Time end_t) {
+Train_trip::Train_trip(const char* Train_number, const char* start_p, const char* end_p, int price, Time start_t, Time end_t) {
 	strcpy(this->Train_number,Train_number);
 	strcpy(this->start_place, start_p);
 	strcpy(this->end_place, end_p);
@@ -75,7 +75,7 @@ Train_trip::Train_trip(char Train_number[], char start_p[], char end_p[], int pr
 	this->end_t = end_t;
 }
 
-Train_trip::Train_trip(char s1[], char s2[], char s3[], int p, int sh, int sm, int ss, int eh, int em, int es) :
+Train_trip::Train_trip(const char *s1, const char *s2, const char *s3, int p, int sh, int sm, int ss, int eh, int em, int es) :
                         price(p), start_t(sh,sm,ss), end_t(eh,em,es) 
 {
     // this->price = price;
